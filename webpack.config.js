@@ -1,8 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const dotenv = require("dotenv-webpack");
 module.exports = {
-  entry: "./src/test.js", //웹팩 빌드할 파일
+  entry: "./src/index.js", //웹팩 빌드할 파일
   output: {
     //정보를 통해 웹팩 빌드 파일 생성
     filename: "bundle.js",
@@ -12,11 +12,16 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|jsx)$/,
+        exclude: "/node_modules",
+        use: ["babel-loader"],
+      },
+      {
         test: /\.html$/,
         use: [
           {
             loader: "html-loader",
-            options: { minimize: true },
+            // options: { minimize: true },
           },
         ],
       },
@@ -27,5 +32,6 @@ module.exports = {
       template: "./public/index.html", //이 파일을 읽는다
       filename: "index.html", //output으로 출력할 파일
     }),
+    new dotenv(),
   ],
 };
